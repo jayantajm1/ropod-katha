@@ -1,0 +1,44 @@
+:host {
+  display: inline-block;
+}
+
+.avatar-container {
+  position: relative;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.status-indicator {
+  box-shadow: 0 0 0 2px white;
+  transition: all 0.2s ease-in-out;
+
+  &.online {
+    animation: pulse-online 2s infinite;
+  }
+}
+
+.group-indicator {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulse-online {
+  0% {
+    box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(34, 197, 94, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 2px white, 0 0 0 8px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(34, 197, 94, 0);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 640px) {
+  .avatar-container:hover {
+    transform: none; // Disable hover effects on mobile
+  }
+}

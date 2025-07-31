@@ -1,0 +1,320 @@
+<div class="flex-1 flex flex-col h-full">
+  <!-- Chat Header -->
+  <div class="bg-white border-b border-gray-200 p-4 shadow-sm">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <!-- Back button for mobile -->
+        <button
+          (click)="goBack()"
+          class="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="Go back"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+
+        <app-avatar [contact]="currentContact" [showStatus]="true">
+        </app-avatar>
+
+        <div class="flex-1 min-w-0">
+          <h2 class="font-semibold text-gray-900 truncate">
+            {{ currentContact?.name }}
+          </h2>
+          <div class="flex items-center space-x-2">
+            <p
+              class="text-sm"
+              [class.text-green-600]="currentContact?.status?.online"
+              [class.text-gray-600]="!currentContact?.status?.online"
+            >
+              {{ getStatusText() }}
+            </p>
+            <span *ngIf="isTyping" class="text-sm text-gray-500 italic"
+              >typing...</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-1">
+        <!-- Search button -->
+        <button
+          (click)="toggleSearch()"
+          class="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="Search messages"
+          [class.bg-blue-100]="showSearch"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </button>
+
+        <!-- Video call button -->
+        <button
+          (click)="startVideoCall()"
+          class="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="Start video call"
+          [disabled]="!currentContact?.status?.online"
+          [class.opacity-50]="!currentContact?.status?.online"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+            />
+          </svg>
+        </button>
+
+        <!-- Voice call button -->
+        <button
+          (click)="startVoiceCall()"
+          class="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="Start voice call"
+          [disabled]="!currentContact?.status?.online"
+          [class.opacity-50]="!currentContact?.status?.online"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+            />
+          </svg>
+        </button>
+
+        <!-- More options button -->
+        <button
+          (click)="toggleOptions()"
+          class="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="More options"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Search bar -->
+    <div *ngIf="showSearch" class="mt-3 transition-all duration-200">
+      <div class="relative">
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (input)="onSearchMessages($event)"
+          placeholder="Search messages..."
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          #searchInput
+        />
+        <svg
+          class="absolute left-3 top-2.5 w-5 h-5 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+        <button
+          *ngIf="searchQuery"
+          (click)="clearSearch()"
+          class="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connection Status Banner -->
+  <div
+    *ngIf="!isConnected"
+    class="bg-yellow-100 border-b border-yellow-200 px-4 py-2 text-center"
+  >
+    <div class="flex items-center justify-center space-x-2 text-yellow-800">
+      <svg
+        class="animate-spin w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+        />
+      </svg>
+      <span class="text-sm">Connecting...</span>
+    </div>
+  </div>
+
+  <!-- Messages Area -->
+  <div
+    class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"
+    #messagesContainer
+    (scroll)="onScroll($event)"
+  >
+    <!-- Load more messages button -->
+    <div *ngIf="hasMoreMessages" class="text-center">
+      <button
+        (click)="loadMoreMessages()"
+        [disabled]="isLoadingMessages"
+        class="px-4 py-2 text-sm text-blue-600 hover:text-blue-800 disabled:opacity-50"
+      >
+        <span *ngIf="!isLoadingMessages">Load older messages</span>
+        <span *ngIf="isLoadingMessages" class="flex items-center space-x-2">
+          <svg
+            class="animate-spin w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
+          </svg>
+          <span>Loading...</span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Messages -->
+    <ng-container *ngIf="filteredMessages.length > 0; else noMessages">
+      <div
+        *ngFor="let message of filteredMessages; trackBy: trackByMessageId"
+        class="flex"
+        [class.justify-end]="isFromCurrentUser(message)"
+        [class.justify-start]="!isFromCurrentUser(message)"
+      >
+        <div
+          class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg"
+          [class.bg-blue-500]="isFromCurrentUser(message)"
+          [class.text-white]="isFromCurrentUser(message)"
+          [class.bg-white]="!isFromCurrentUser(message)"
+          [class.text-gray-900]="!isFromCurrentUser(message)"
+          [class.ring-2]="isMessageHighlighted(message.id)"
+          [class.ring-yellow-400]="isMessageHighlighted(message.id)"
+        >
+          <p>{{ message.content }}</p>
+          <p class="text-xs mt-1 opacity-70">
+            {{ message.timestamp | timeAgo }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noMessages>
+      <div class="flex-1 flex items-center justify-center text-center py-12">
+        <div class="text-gray-500">
+          <svg
+            class="mx-auto w-16 h-16 mb-4 text-gray-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+            />
+          </svg>
+          <h3 class="text-lg font-medium text-gray-900 mb-1">
+            No messages yet
+          </h3>
+          <p class="text-sm">
+            Start a conversation with {{ currentContact?.name }}
+          </p>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Scroll to bottom button -->
+    <button
+      *ngIf="showScrollToBottom"
+      (click)="scrollToBottom()"
+      class="fixed bottom-20 right-6 bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-200 z-10"
+      aria-label="Scroll to bottom"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 14l-7 7m0 0l-7-7m7 7V3"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Message Input -->
+  <app-message-input (messageSent)="onMessageSent($event)"> </app-message-input>
+</div>

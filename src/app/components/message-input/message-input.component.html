@@ -1,0 +1,225 @@
+<div class="bg-white border-t border-gray-200 p-4">
+  <!-- File Preview Area -->
+  <div *ngIf="selectedFiles.length > 0" class="mb-3">
+    <div class="flex flex-wrap gap-2">
+      <div
+        *ngFor="let file of selectedFiles; let i = index"
+        class="relative bg-gray-100 rounded-lg p-2 flex items-center space-x-2"
+      >
+        <svg
+          class="w-4 h-4 text-gray-500"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+          />
+        </svg>
+        <span class="text-sm text-gray-700 truncate max-w-32">{{
+          file.name
+        }}</span>
+        <button
+          (click)="removeFile(i)"
+          class="text-gray-400 hover:text-red-500 ml-1"
+          aria-label="Remove file"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Emoji Picker -->
+  <div
+    *ngIf="showEmojiPicker"
+    class="absolute bottom-20 left-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50 max-h-48 overflow-y-auto"
+  >
+    <div class="grid grid-cols-10 gap-2">
+      <button
+        *ngFor="let emoji of commonEmojis"
+        (click)="insertEmoji(emoji)"
+        class="p-2 hover:bg-gray-100 rounded text-lg transition-colors"
+        [attr.aria-label]="'Insert ' + emoji + ' emoji'"
+      >
+        {{ emoji }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Input Area -->
+  <div class="flex items-end space-x-2">
+    <!-- Emoji Button -->
+    <button
+      *ngIf="allowEmoji"
+      (click)="toggleEmojiPicker()"
+      class="flex-shrink-0 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+      [class.text-blue-500]="showEmojiPicker"
+      [class.bg-blue-50]="showEmojiPicker"
+      aria-label="Toggle emoji picker"
+      type="button"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    </button>
+
+    <!-- File Upload Button -->
+    <button
+      *ngIf="allowFileUpload"
+      (click)="onFileButtonClick()"
+      class="flex-shrink-0 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+      aria-label="Attach file"
+      type="button"
+      [disabled]="disabled"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+        />
+      </svg>
+    </button>
+
+    <!-- Hidden File Input -->
+    <input
+      #fileInput
+      type="file"
+      multiple
+      class="hidden"
+      (change)="onFileSelected($event)"
+      accept="image/*,video/*,audio/*,.pdf,.txt"
+    />
+
+    <!-- Text Input Area -->
+    <div class="flex-1 relative">
+      <textarea
+        #messageInput
+        [(ngModel)]="messageText"
+        (input)="onInputChange()"
+        (keydown)="onKeyDown($event)"
+        [placeholder]="placeholder"
+        [disabled]="disabled"
+        [maxlength]="maxLength"
+        class="w-full resize-none rounded-lg border border-gray-300 px-4 py-2 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+        [class.border-red-500]="isOverLimit"
+        [class.border-yellow-500]="isNearLimit && !isOverLimit"
+        rows="1"
+        style="min-height: 40px; max-height: 120px"
+      ></textarea>
+
+      <!-- Character Counter -->
+      <div
+        *ngIf="isNearLimit"
+        class="absolute bottom-1 right-14 text-xs"
+        [class.text-yellow-600]="isNearLimit && !isOverLimit"
+        [class.text-red-600]="isOverLimit"
+      >
+        {{ characterCount }}/{{ maxLength }}
+      </div>
+    </div>
+
+    <!-- Voice Message Button (placeholder) -->
+    <button
+      *ngIf="!messageText.trim()"
+      (click)="startVoiceRecording()"
+      class="flex-shrink-0 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+      aria-label="Record voice message"
+      type="button"
+      [disabled]="disabled"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+        />
+      </svg>
+    </button>
+
+    <!-- Send Button -->
+    <button
+      *ngIf="messageText.trim()"
+      (click)="sendMessage()"
+      [disabled]="!canSend"
+      class="flex-shrink-0 p-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-full transition-colors"
+      aria-label="Send message"
+      type="button"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Input Helper Text -->
+  <div class="mt-2 flex justify-between items-center text-xs text-gray-500">
+    <span *ngIf="disabled" class="text-yellow-600">
+      <svg
+        class="inline w-3 h-3 mr-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z"
+        />
+      </svg>
+      Connection lost - messages cannot be sent
+    </span>
+    <span *ngIf="!disabled" class="text-gray-400">
+      Press Enter to send, Shift+Enter for new line
+    </span>
+  </div>
+</div>

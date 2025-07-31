@@ -1,0 +1,319 @@
+/* Register Component Styles */
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+  }
+}
+
+/* Background animations */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Form styling enhancements */
+.register-card {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Input field enhancements */
+input:focus {
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+/* Password strength indicator */
+.password-strength-weak {
+  background-color: #ef4444;
+}
+
+.password-strength-fair {
+  background-color: #f59e0b;
+}
+
+.password-strength-good {
+  background-color: #10b981;
+}
+
+.password-strength-strong {
+  background-color: #059669;
+}
+
+.password-strength-empty {
+  background-color: #e5e7eb;
+}
+
+/* Button hover effects */
+.register-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.register-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.register-button:hover::before {
+  left: 100%;
+}
+
+/* Social button hover effects */
+.social-button {
+  transition: all 0.3s ease;
+}
+
+.social-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"] {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.25rem;
+  background: white;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-color: #10b981;
+}
+
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Loading spinner enhancement */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Password visibility toggle enhancement */
+.password-toggle {
+  transition: all 0.2s ease;
+}
+
+.password-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Form validation states */
+.input-valid {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.input-invalid {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .register-card {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .logo-container {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Error message styling */
+.error-message {
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success message styling */
+.success-message {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  animation: slideIn 0.3s ease;
+}
+
+/* Terms and privacy links */
+.terms-link {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+
+.terms-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background: linear-gradient(90deg, #10b981, #06b6d4);
+  transition: width 0.3s ease;
+}
+
+.terms-link:hover::after {
+  width: 100%;
+}
+
+/* Focus enhancement for accessibility */
+*:focus {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Password match indicator */
+.password-match-indicator {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+}
+
+.password-match {
+  color: #10b981;
+}
+
+.password-mismatch {
+  color: #ef4444;
+}
+
+/* Form field focus animations */
+.form-field:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Button pulse animation for loading state */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Gradient text animation */
+@keyframes gradient-text {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient-text {
+  background-size: 200% 200%;
+  animation: gradient-text 3s ease infinite;
+}

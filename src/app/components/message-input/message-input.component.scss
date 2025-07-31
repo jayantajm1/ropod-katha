@@ -1,0 +1,198 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+.message-input-container {
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem;
+  position: relative;
+}
+
+// Textarea auto-resize animation
+textarea {
+  transition: height 0.2s ease-out;
+  font-family: inherit;
+  line-height: 1.5;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+}
+
+// Emoji picker animations
+.emoji-picker {
+  animation: slideUp 0.2s ease-out;
+  backdrop-filter: blur(8px);
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+}
+
+.emoji-button {
+  transition: all 0.15s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &:active {
+    transform: scale(1.1);
+  }
+}
+
+// File preview animations
+.file-preview {
+  animation: slideIn 0.2s ease-out;
+}
+
+.file-item {
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+}
+
+// Button hover effects
+.action-button {
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+// Send button pulse animation when ready to send
+.send-button {
+  &:not(:disabled) {
+    animation: pulse-ready 2s infinite;
+  }
+}
+
+// Loading state for voice recording
+.voice-recording {
+  .voice-button {
+    animation: pulse-recording 1s infinite;
+    background-color: #ef4444;
+    color: white;
+  }
+}
+
+// Animations
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-ready {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  }
+}
+
+@keyframes pulse-recording {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.1);
+  }
+}
+
+// Responsive design
+@media (max-width: 640px) {
+  .message-input-container {
+    padding: 0.75rem;
+  }
+
+  .emoji-picker {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 4.5rem;
+  }
+
+  .action-button:hover:not(:disabled) {
+    transform: none; // Disable hover effects on mobile
+  }
+}
+
+// Dark mode support (if needed)
+@media (prefers-color-scheme: dark) {
+  .message-input-container {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  textarea {
+    background: #374151;
+    border-color: #4b5563;
+    color: white;
+
+    &:focus {
+      border-color: #3b82f6;
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+
+  .emoji-picker {
+    background: #1f2937;
+    border-color: #374151;
+  }
+}
