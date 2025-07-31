@@ -4,14 +4,14 @@
   <!-- Animated background elements -->
   <div class="absolute inset-0 overflow-hidden">
     <div
-      class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse"
+      class="absolute -top-32 -right-32 w-64 h-64 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-15 animate-pulse"
     ></div>
     <div
-      class="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-20 animate-pulse"
+      class="absolute -bottom-32 -left-32 w-64 h-64 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-15 animate-pulse"
       style="animation-delay: 2s"
     ></div>
     <div
-      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-gradient-to-r from-pink-400 to-indigo-400 rounded-full opacity-10 animate-ping"
+      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gradient-to-r from-pink-400 to-indigo-400 rounded-full opacity-8 animate-ping"
       style="animation-duration: 4s"
     ></div>
   </div>
@@ -25,10 +25,10 @@
       <div class="text-center mb-8">
         <div class="relative mb-6">
           <div
-            class="w-20 h-20 mx-auto bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg"
+            class="w-16 h-16 mx-auto bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg"
           >
             <svg
-              class="w-10 h-10 text-white"
+              class="w-8 h-8 text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -42,11 +42,11 @@
             </svg>
           </div>
           <div
-            class="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full animate-bounce"
+            class="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-bounce"
           ></div>
         </div>
         <h1
-          class="text-3xl font-bold bg-gradient-to-r from-gray-900 via-purple-900 to-pink-900 bg-clip-text text-transparent mb-2"
+          class="text-2xl font-bold bg-gradient-to-r from-gray-900 via-purple-900 to-pink-900 bg-clip-text text-transparent mb-2"
         >
           Welcome Back
         </h1>
@@ -65,7 +65,7 @@
               class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
             >
               <svg
-                class="h-5 w-5 text-gray-400"
+                class="h-4 w-4 text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -84,7 +84,7 @@
               name="email"
               [(ngModel)]="loginData.email"
               required
-              class="block w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl bg-white/70 backdrop-blur-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
+              class="block w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl bg-white/70 backdrop-blur-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
               placeholder="Enter your email or username"
             />
           </div>
@@ -100,7 +100,7 @@
               class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
             >
               <svg
-                class="h-5 w-5 text-gray-400"
+                class="h-4 w-4 text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -119,7 +119,7 @@
               name="password"
               [(ngModel)]="loginData.password"
               required
-              class="block w-full pl-12 pr-12 py-3 border border-gray-200 rounded-xl bg-white/70 backdrop-blur-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
+              class="block w-full pl-10 pr-10 py-3 border border-gray-200 rounded-xl bg-white/70 backdrop-blur-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
               placeholder="Enter your password"
             />
             <button
@@ -129,7 +129,7 @@
             >
               <svg
                 *ngIf="!showPassword"
-                class="h-5 w-5"
+                class="h-4 w-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -149,7 +149,7 @@
               </svg>
               <svg
                 *ngIf="showPassword"
-                class="h-5 w-5"
+                class="h-4 w-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -192,7 +192,7 @@
         >
           <span *ngIf="!isLoading" class="flex items-center">
             <svg
-              class="w-5 h-5 mr-2 group-hover:animate-pulse"
+              class="w-4 h-4 mr-2 group-hover:animate-pulse"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -208,7 +208,7 @@
           </span>
           <span *ngIf="isLoading" class="flex items-center">
             <svg
-              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              class="animate-spin -ml-1 mr-3 h-4 w-4 text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
